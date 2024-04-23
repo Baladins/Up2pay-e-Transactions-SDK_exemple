@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  jap_up2pay:
+    container_name: sdk-example
+    image: sdk-example
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8003:80'
+    networks:
+      - default
+    volumes:
+      - .:/var/www/html
