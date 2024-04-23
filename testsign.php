@@ -1,19 +1,18 @@
-
-///// script PHP de vérification de la signature Paybox.
-///// Ce code peut s'executer dans un contexte Apache/PHP.
-///// Il affiche alors une page web qui permet de vérifier et signer des données.
-
-
-
 <html>
 <head>
 <title>formulaire d'exemple pour test signature</title>
 </head>
 <body>
 
-<?
+<pre>
+script PHP de vÃ©rification de la signature Paybox.
+Ce code peut s'executer dans un contexte Apache/PHP.
+Il affiche alors une page web qui permet de vÃ©rifier et signer des donnÃ©es.
+</pre>
 
-function LoadKey( $keyfile, $pub=true, $pass='' ) {         // chargement de la clé (publique par défaut)
+<?php
+
+function LoadKey( $keyfile, $pub=true, $pass='' ) {         // chargement de la clï¿½ (publique par dï¿½faut)
 
     $fp = $filedata = $key = FALSE;                         // initialisation variables
     $fsize =  filesize( $keyfile );                         // taille du fichier
@@ -30,8 +29,8 @@ function LoadKey( $keyfile, $pub=true, $pass='' ) {         // chargement de la 
     return $key;                                            // renvoi cle ( ou erreur )
 }
 
-// comme precise la documentation Paybox, la signature doit être
-// obligatoirement en dernière position pour que cela fonctionne
+// comme precise la documentation Paybox, la signature doit ï¿½tre
+// obligatoirement en derniï¿½re position pour que cela fonctionne
 
 function GetSignedData( $qrystr, &$data, &$sig ) {          // renvoi les donnes signees et la signature
 
@@ -42,27 +41,33 @@ function GetSignedData( $qrystr, &$data, &$sig ) {          // renvoi les donnes
     $sig = base64_decode( urldecode( $sig ));               // decodage signature
 }
 
-// $querystring = chaine entière retournée par Paybox lors du retour au site (méthode GET)
-// $keyfile = chemin d'accès complet au fichier de la clé publique Paybox
+// $querystring = chaine entiï¿½re retournï¿½e par Paybox lors du retour au site (mï¿½thode GET)
+// $keyfile = chemin d'accï¿½s complet au fichier de la clï¿½ publique Paybox
 
 function PbxVerSign( $qrystr, $keyfile ) {                  // verification signature Paybox
 
     $key = LoadKey( $keyfile );                             // chargement de la cle
     if( !$key ) return -1;                                  // si erreur chargement cle
-//  penser à openssl_error_string() pour diagnostic openssl si erreur
+//  penser ï¿½ openssl_error_string() pour diagnostic openssl si erreur
     GetSignedData( $qrystr, $data, $sig );                  // separation et recuperation signature et donnees
+    
     return openssl_verify( $data, $sig, $key );             // verification : 1 si valide, 0 si invalide, -1 si erreur
 }
 
-if( !isset( $_POST['data'] ))                               // pour alimentation par defaut quand premier affichage du formulaire
+$status = "";
+
+if( !isset( $_POST['data'] )) {                              // pour alimentation par defaut quand premier affichage du formulaire
     $_POST['data'] = 'arg1=aaaa&arg2=bbbb&arg3=cccc&arg4=dddd';
+    $_POST['signeddata']  = '';
+}
 
 if( isset( $_POST['signer']) ) {                            // si on a demande la signature
 
     $key = LoadKey( 'TestK004.prv.pem', false );            // chargement de la cle prive (de test, sans mot de passe)
     if( $key ) {
         openssl_sign( $_POST['data'], $signature, $key );   // generation de la signature
-        openssl_free_key( $key );                           // liberation ressource (confidentialite cle prive)
+        unset( $key );                           // liberation ressource (confidentialite cle prive)
+        $status = "OK";
     }
     else $status = openssl_error_string();                  // diagnostic erreur
 
@@ -70,20 +75,21 @@ if( isset( $_POST['signer']) ) {                            // si on a demande l
     $_POST['signeddata'] .= '&sig=';
     $_POST['signeddata'] .= urlencode( base64_encode( $signature ));
 }
+
 if( isset( $_POST['verifier']) ) {                          // si on a demande la verification
 
     $CheckSig = PbxVerSign( $_POST['signeddata'], 'TestK004.pub.pem' );
 
     if( $CheckSig == 1 )       $status = "Signature valide";
     else if( $CheckSig == 0 )  $status = "Signature invalide : donnees alterees ou signature falsifiee";
-    else                       $status = "Erreur lors de la vérification de la signature";
+    else                       $status = "Erreur lors de la vÃ©rification de la signature";
 }
 
 ?>
     <form action="testsign.php" method="POST">
     <table border="0" cellpadding="3" cellspacing="0" align="center">
     <tr>
-      <td>status = <?= $status ?></td>
+      <td>status = <?php echo $status; ?></td>
     </tr>
     <tr>
       <td><input type="text" name="data" size="80"value="<?= $_POST['data'] ?>"></td>
