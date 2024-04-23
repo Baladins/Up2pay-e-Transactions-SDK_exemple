@@ -58,16 +58,17 @@ Vérifiez également que la clé HMAC utilisée a bien été confirmée/validée
 
 Question: Vous recevez un mail intitulé Warning e-Transactions (= la commande ne se valide pas sur votre boutique)
 Réponse: Lorsqu'une transaction est créée ou que son statut change, un IPN est envoyé à l’URL de notification que vous aurez définie via PBX_REPONDRE_A.
-   Si le serveur commerçant n’accuse pas réception de ce retour IPN, alors un mail de Warning est envoyé par mail aux adresses définies dans le back office Up2pay e-Transactions
-   Ce warning contient le code erreur renvoyé: il s’agit généralement d’un code erreur HTTP ou d’un message d’erreur Curl.
+Si le serveur commerçant n’accuse pas réception de ce retour IPN, alors un mail de Warning est envoyé par mail aux adresses définies dans le back office Up2pay e-Transactions
+Ce warning contient le code erreur renvoyé: il s’agit généralement d’un code erreur HTTP ou d’un message d’erreur Curl.
 
-   Exemples courants:
-     - HTTP 301/302/307/308: L’URL de retour IPN n’est pas directement accessible car une redirection temporaire ou permanente est en place.
-     - HTTP 401: Accès refusé. Vérifier que l'accès à cette URL n'est pas protégée par une authentification par login/mot de passe.
-     - HTTP 414: URL trop longue.
-     - HTTP 500 : Le serveur a échoué à accomplir une demande apparemment valable. Vérifier que le format de l'URL PBX_REPONDRE_A est bien valide
-     - HTTP 503 (service indisponible): Vérifier que le site commerçant n'est pas en maintenance
-     - Operation timed out after 20001 milliseconds with 0 bytes received (code http: 0 – code curl: 28): Correspond à un time-out. Causes possibles: Serveur saturé, proxy mal paramétré, ...
-     - SSL certificate problem: unable to get local issuer certificate: Le certificat SSL n’est pas totalement opérationnel et pose problème lors des contrôles de sécurité (vérifications CURL). Vérifier qu’il ne manque pas l’installation d’un certificat intermédiaire sur votre plate-forme.
+Exemples courants:
+
+- HTTP 301/302/307/308: L’URL de retour IPN n’est pas directement accessible car une redirection temporaire ou permanente est en place.
+- HTTP 401: Accès refusé. Vérifier que l'accès à cette URL n'est pas protégée par une authentification par login/mot de passe.
+- HTTP 414: URL trop longue.
+- HTTP 500 : Le serveur a échoué à accomplir une demande apparemment valable. Vérifier que le format de l'URL PBX_REPONDRE_A est bien valide
+- HTTP 503 (service indisponible): Vérifier que le site commerçant n'est pas en maintenance
+- Operation timed out after 20001 milliseconds with 0 bytes received (code http: 0 – code curl: 28): Correspond à un time-out. Causes possibles: Serveur saturé, proxy mal paramétré, ...
+- SSL certificate problem: unable to get local issuer certificate: Le certificat SSL n’est pas totalement opérationnel et pose problème lors des contrôles de sécurité (vérifications CURL). Vérifier qu’il ne manque pas l’installation d’un certificat intermédiaire sur votre plate-forme.
 
 Pour plus d'informations, rendez-vous sur https://www.ca-moncommerce.com/espace-client-mon-commerce/e-transactions/
