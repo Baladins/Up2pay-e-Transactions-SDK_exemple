@@ -55,12 +55,15 @@ Recette
 
 
 Question: Vous rencontrez un message d'erreur sur la page de paiement
+
 Réponse: Vérifiez la cohérence des variables saisies: exemple PBX_TOTAL doit être supérieur à 100, PBX_Porteur doit contenir une adresse mail, ...
 Vérifiez également que la clé HMAC utilisée a bien été confirmée/validée par mail, suite à sa génération sur Vision.
 
 
 Question: Vous recevez un mail intitulé Warning e-Transactions (= la commande ne se valide pas sur votre boutique)
+
 Réponse: Lorsqu'une transaction est créée ou que son statut change, un IPN est envoyé à l’URL de notification que vous aurez définie via PBX_REPONDRE_A.
+
 Si le serveur commerçant n’accuse pas réception de ce retour IPN, alors un mail de Warning est envoyé par mail aux adresses définies dans le back office Up2pay e-Transactions
 Ce warning contient le code erreur renvoyé: il s’agit généralement d’un code erreur HTTP ou d’un message d’erreur Curl.
 
