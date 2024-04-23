@@ -1,6 +1,9 @@
 # Up2pay e-Transactions
 Last update 23/04/2024
 
+Version modifié et corrigé du "Kit d'intégration PHP" Disponible à l'addresse suivante:
+- https://www.ca-moncommerce.com/espace-client-mon-commerce/up2pay-e-transactions/telecharger-mes-modules/php/
+
 ## A propos
 Le fichier formulaire_HMAC.php est un exemple de fichier permettant l'accès à la plateforme e-Transactions. 
 
